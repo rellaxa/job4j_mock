@@ -6,9 +6,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import ru.job4j.site.dto.CategoryDTO;
+import ru.job4j.site.dto.InterviewDTO;
 import ru.job4j.site.service.*;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.util.HashMap;
+import java.util.List;
 
 import static ru.job4j.site.controller.RequestResponseTools.getToken;
 
@@ -28,7 +33,9 @@ public class IndexController {
                 "Главная", "/"
         );
         try {
-            model.addAttribute("categories", categoriesService.getMostPopular());
+            var mostPopular = categoriesService.getMostPopular();
+            System.out.println(mostPopular);
+            model.addAttribute("categories", mostPopular);
             var token = getToken(req);
             if (token != null) {
                 var userInfo = authService.userInfo(token);
@@ -36,10 +43,12 @@ public class IndexController {
                 model.addAttribute("userDTO", notifications.findCategoriesByUserId(userInfo.getId()));
                 RequestResponseTools.addAttrCanManage(model, userInfo);
             }
+
         } catch (Exception e) {
             log.error("Remote application not responding. Error: {}. {}, ", e.getCause(), e.getMessage());
         }
         var interviews = interviewsService.getByType(1);
+        System.out.println(interviews);
         model.addAttribute("new_interviews", interviews);
         model.addAttribute("profiles", profilesService.getByInterviews(interviews));
         return "index";

@@ -38,6 +38,7 @@ public class InterviewService {
     }
 
     public List<Interview> findAll() {
+        System.out.println("---findAll---");
         return interviewRepository.findAll().stream()
                 .peek(interview -> {
                     if (interview.getTopicId() == null) {
@@ -56,13 +57,15 @@ public class InterviewService {
     }
 
     public List<Interview> findByMode(int mode) {
-        return interviewRepository.findByMode(mode).stream()
+        var interviewList = interviewRepository.findByMode(mode).stream()
                 .peek(interview -> {
                     if (interview.getTopicId() == null) {
                         interview.setTopicId(1);
                     }
                 })
                 .collect(Collectors.toList());
+        System.out.println(interviewList);
+        return interviewList;
     }
 
     public Page<Interview> findByTopicId(int topicId, int page, int size) {
@@ -71,6 +74,10 @@ public class InterviewService {
 
     public Page<Interview> findByTopicsIds(List<Integer> topicsIds, int page, int size) {
         return interviewRepository.findByTopicIdIn(topicsIds, PageRequest.of(page, size));
+    }
+
+    public List<Interview> findByStatusAndTopicIds(int statusId, List<Integer> topicIds) {
+        return interviewRepository.findByStatusAndTopicIdIn(statusId, topicIds);
     }
 
     public boolean update(Interview interview) {
