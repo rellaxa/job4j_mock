@@ -49,6 +49,20 @@ public class InterviewsController {
                 .body(interviewService.findByTopicId(topicId, page, size));
     }
 
+    @GetMapping("/findByStatus/{statusId}/findByTopics/{tids}")
+    public ResponseEntity<List<Interview>> findByStatusIdAndTopicIds(
+            @PathVariable int statusId,
+            @PathVariable String tids) {
+        var topicIdsArr = tids.split(",");
+        List<Integer> topicIds = new ArrayList<>();
+        for (String id : topicIdsArr) {
+            topicIds.add(Integer.valueOf(id));
+        }
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(interviewService.findByStatusAndTopicIds(statusId, topicIds));
+    }
+
     @GetMapping("/findByTopicsIds/{tids}")
     public ResponseEntity<Page<Interview>> findByCategory(
             @PathVariable String tids,

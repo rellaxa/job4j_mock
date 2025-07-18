@@ -17,6 +17,7 @@ public class InterviewsService {
 
     public Page<InterviewDTO> getAll(String token, int page, int size)
             throws JsonProcessingException {
+        System.out.println("page = " + page + "; size =  " + size);
         var text = new RestAuthCall(String
                 .format("http://localhost:9912/interviews/?page=%d&?size=%d", page, size))
                 .get(token);
@@ -30,6 +31,16 @@ public class InterviewsService {
     public List<InterviewDTO> getByType(int type) throws JsonProcessingException {
         var text = new RestAuthCall(String.format("http://localhost:9912/interviews/%d", type))
                 .get();
+        var mapper = new ObjectMapper();
+        return mapper.readValue(text, new TypeReference<>() {
+        });
+    }
+
+    public List<InterviewDTO> getByStatusAndTopicIds(int statusId, List<Integer> topicIds) throws JsonProcessingException {
+        var tids = parseIdsListToString(topicIds);
+        var text = new RestAuthCall(String
+                .format("http://localhost:9912/interviews/findByStatus/%s/findByTopics/%s",
+                        statusId, tids)).get();
         var mapper = new ObjectMapper();
         return mapper.readValue(text, new TypeReference<>() {
         });
