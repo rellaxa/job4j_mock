@@ -17,7 +17,8 @@ public class CheckAction implements Action {
 	private static final String URL_AUTH_PROFILES = "/profiles/chatId/";
 
 	@Override
-	public BotApiMethod<Message> handle(Message message) {var chatId = message.getChatId().toString();
+	public BotApiMethod<Message> handle(Message message) {
+		var chatId = message.getChatId().toString();
 		var username = message.getFrom().getUserName();
 		var text = "";
 		var sl = System.lineSeparator();
