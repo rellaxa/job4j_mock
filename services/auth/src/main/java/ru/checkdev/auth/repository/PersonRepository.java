@@ -60,7 +60,7 @@ public interface PersonRepository extends CrudRepository<Profile, Integer> {
      * @param id int person id
      * @return ProfileDTO
      */
-    @Query("SELECT new ru.checkdev.auth.dto.ProfileDTO(p.id, p.username, p.experience, p.photo.id, p.updated, p.created) FROM profile p WHERE p.id = :id")
+    @Query("SELECT new ru.checkdev.auth.dto.ProfileDTO(p.id, p.username, p.fio, p.email, p.experience, p.photo.id, p.updated, p.created) FROM profile p WHERE p.id = :id")
     ProfileDTO findProfileById(@Param("id") int id);
 
     /**
@@ -70,6 +70,9 @@ public interface PersonRepository extends CrudRepository<Profile, Integer> {
      *
      * @return List ProfileDTO
      */
-    @Query("SELECT new ru.checkdev.auth.dto.ProfileDTO(p.id, p.username, p.experience, p.photo.id, p.updated, p.created) FROM profile p ORDER BY p.created DESC")
+    @Query("SELECT new ru.checkdev.auth.dto.ProfileDTO(p.id, p.username, p.fio, p.email, p.experience, p.photo.id, p.updated, p.created) FROM profile p ORDER BY p.created DESC")
     List<ProfileDTO> findProfileOrderByCreatedDesc();
+
+    @Query("SELECT new ru.checkdev.auth.dto.ProfileDTO(p.id, p.username, p.fio, p.email, p.experience, p.photo.id, p.updated, p.created) FROM profile p WHERE p.chatId = :chatId")
+    ProfileDTO findProfileByChatId(@Param("chatId") Long chatId);
 }

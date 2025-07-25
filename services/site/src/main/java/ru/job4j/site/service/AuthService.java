@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import ru.job4j.site.dto.UserInfoDTO;
 
 import java.util.Map;
@@ -20,10 +21,17 @@ public class AuthService {
     @Value("${server.auth.ping}")
     private String authServicePing;
 
-    public UserInfoDTO userInfo(String token) throws JsonProcessingException {
+    private final RestTemplate restTemplate;
+
+	public AuthService(RestTemplate restTemplate) {
+		this.restTemplate = restTemplate;
+	}
+
+	public UserInfoDTO userInfo(String token) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
+
         return mapper.readValue(new RestAuthCall(
-                "http://localhost:9900/person/current"
+                "http://localhost:9900/person/current", restTemplate
         ).get(token), UserInfoDTO.class);
     }
 
@@ -32,7 +40,7 @@ public class AuthService {
         String result = "";
         try {
             result = mapper.readTree(
-                    new RestAuthCall(oauth2Token).token(params)
+                    new RestAuthCall(oauth2Token, restTemplate).token(params)
             ).get("access_token").asText();
         } catch (Exception e) {
             log.error("Get token from service Auth error: {}", e.getMessage());
@@ -48,7 +56,7 @@ public class AuthService {
     public boolean getPing() {
         var result = false;
         try {
-            result = !new RestAuthCall(authServicePing).get().isEmpty();
+            result = !new RestAuthCall(authServicePing, restTemplate).get().isEmpty();
         } catch (Exception e) {
             log.error("Get PING from API Auth error: {}", e.getMessage());
         }

@@ -33,58 +33,60 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(ProfileController.class)
 public class ProfileControllerTest {
-    @MockBean
-    private ProfileService profileService;
-    @Autowired
-    private MockMvc mockMvc;
-    private ProfileController profileController;
-    private final ProfileDTO profileDTO1 = new ProfileDTO(
-            1, "name1", "experience1", 1, null, null);
-    private final ProfileDTO profileDTO2 = new ProfileDTO(
-            2, "name2", "experience2", 2, null, null);
+	@MockBean
+	private ProfileService profileService;
+	@Autowired
+	private MockMvc mockMvc;
+	private ProfileController profileController;
+	private final ProfileDTO profileDTO1 = new ProfileDTO(
+			1, "name1", "fio", "email", "experience1", 1, null, null);
+	private final ProfileDTO profileDTO2 = new ProfileDTO(
+			2, "name2", "fio", "email", "experience2", 2, null, null);
 
 
-    @Before
-    public void initController() {
-        this.profileController = new ProfileController(profileService);
-    }
+	@Before
+	public void initController() {
+		this.profileController = new ProfileController(profileService);
+	}
 
-    @Test
-    @WithMockUser
-    public void whenGetProfileByIdThenReturnStatusOK() throws Exception {
-        when(profileService.findProfileByID(profileDTO1.getId())).thenReturn(Optional.of(profileDTO1));
-        mockMvc.perform(get("/profiles/{id}", profileDTO1.getId()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(profileDTO1.getId()))
-                .andExpect(jsonPath("$.username").value(profileDTO1.getUsername()))
-                .andExpect(jsonPath("$.experience").value(profileDTO1.getExperience()))
-                .andExpect(jsonPath("$.photoId").value(profileDTO1.getPhotoId()));
-    }
+	@Test
+	@WithMockUser
+	public void whenGetProfileByIdThenReturnStatusOK() throws Exception {
+		when(profileService.findProfileByID(profileDTO1.getId())).thenReturn(Optional.of(profileDTO1));
+		mockMvc.perform(get("/profiles/{id}", profileDTO1.getId()))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.id").value(profileDTO1.getId()))
+				.andExpect(jsonPath("$.username").value(profileDTO1.getUsername()))
+				.andExpect(jsonPath("$.experience").value(profileDTO1.getExperience()))
+				.andExpect(jsonPath("$.photoId").value(profileDTO1.getPhotoId()))
+				.andExpect(jsonPath("$.fio").value(profileDTO1.getFio()))
+				.andExpect(jsonPath("$.email").value(profileDTO1.getEmail()));
+	}
 
-    @SuppressWarnings("checkstyle:OperatorWrap")
-    @Test
-    @WithMockUser
-    public void whenGetProfileByIdProfileNotFoundThenReturnStatusNotFound() throws Exception {
-        when(profileService.findProfileByID(profileDTO1.getId())).thenReturn(Optional.empty());
-        mockMvc.perform(get("/profiles/{id}/", anyInt()))
-                .andExpect(status().isNoContent());
-    }
+	@SuppressWarnings("checkstyle:OperatorWrap")
+	@Test
+	@WithMockUser
+	public void whenGetProfileByIdProfileNotFoundThenReturnStatusNotFound() throws Exception {
+		when(profileService.findProfileByID(profileDTO1.getId())).thenReturn(Optional.empty());
+		mockMvc.perform(get("/profiles/{id}/", anyInt()))
+				.andExpect(status().isNoContent());
+	}
 
-    @Test
-    @WithMockUser
-    public void whenGetAllProfilesOrderByCreateDescThenReturnStatusOkAndBody() throws Exception {
-        var profiles = List.of(profileDTO1, profileDTO2);
-        when(profileService.findProfilesOrderByCreatedDesc()).thenReturn(profiles);
-        mockMvc.perform(get("/profiles/"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()").value(profiles.size()));
-    }
+	@Test
+	@WithMockUser
+	public void whenGetAllProfilesOrderByCreateDescThenReturnStatusOkAndBody() throws Exception {
+		var profiles = List.of(profileDTO1, profileDTO2);
+		when(profileService.findProfilesOrderByCreatedDesc()).thenReturn(profiles);
+		mockMvc.perform(get("/profiles/"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.size()").value(profiles.size()));
+	}
 
-    @Test
-    @WithMockUser
-    public void whenGetAllProfilesOrderByCreateDescListEmptyThenReturnStatusNoContent() throws Exception {
-        when(profileService.findProfilesOrderByCreatedDesc()).thenReturn(Collections.emptyList());
-        mockMvc.perform(get("/profiles/"))
-                .andExpect(status().isNoContent());
-    }
+	@Test
+	@WithMockUser
+	public void whenGetAllProfilesOrderByCreateDescListEmptyThenReturnStatusNoContent() throws Exception {
+		when(profileService.findProfilesOrderByCreatedDesc()).thenReturn(Collections.emptyList());
+		mockMvc.perform(get("/profiles/"))
+				.andExpect(status().isNoContent());
+	}
 }

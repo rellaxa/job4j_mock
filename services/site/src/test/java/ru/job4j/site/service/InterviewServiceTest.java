@@ -1,6 +1,7 @@
 package ru.job4j.site.service;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.web.client.RestTemplate;
 import ru.job4j.site.domain.StatusWisher;
 import ru.job4j.site.dto.*;
 
@@ -19,7 +20,7 @@ import static org.mockito.Mockito.when;
  */
 class InterviewServiceTest {
     private ProfilesService profilesService = mock(ProfilesService.class);
-    private InterviewService interviewService = new InterviewService(profilesService);
+    private InterviewService interviewService = new InterviewService(profilesService, new RestTemplate());
 
     @Test
     void injectedNotNull() {

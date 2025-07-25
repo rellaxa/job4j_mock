@@ -65,6 +65,34 @@ public class AuthController {
         });
     }
 
+    @PostMapping("/bind")
+    public Object bind(@RequestBody Profile profile) {
+        Optional<Profile> result = this.persons.bind(profile);
+        return result.<Object>map(prs -> new Object() {
+            public Profile getPerson() {
+                return prs;
+            }
+        }).orElseGet(() -> new Object() {
+            public String getError() {
+                return String.format("вы ввели неверный email или пароль: %s %s.", profile.getEmail(), profile.getPassword());
+            }
+        });
+    }
+
+    @PostMapping("/unbind")
+    public Object unbind(@RequestBody Profile profile) {
+        Optional<Profile> result = this.persons.unbind(profile);
+        return result.<Object>map(prs -> new Object() {
+            public Profile getPerson() {
+                return prs;
+            }
+        }).orElseGet(() -> new Object() {
+            public String getError() {
+                return String.format("вы ввели неверный email или пароль: %s %s.", profile.getEmail(), profile.getPassword());
+            }
+        });
+    }
+
     @PostMapping("/forgot")
     public Object forgot(@RequestBody Profile profile) {
         Optional<Profile> result = this.persons.forgot(profile);
