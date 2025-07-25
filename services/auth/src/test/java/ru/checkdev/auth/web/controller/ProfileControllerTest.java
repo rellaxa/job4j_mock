@@ -58,7 +58,9 @@ public class ProfileControllerTest {
 				.andExpect(jsonPath("$.id").value(profileDTO1.getId()))
 				.andExpect(jsonPath("$.username").value(profileDTO1.getUsername()))
 				.andExpect(jsonPath("$.experience").value(profileDTO1.getExperience()))
-				.andExpect(jsonPath("$.photoId").value(profileDTO1.getPhotoId()));
+				.andExpect(jsonPath("$.photoId").value(profileDTO1.getPhotoId()))
+				.andExpect(jsonPath("$.fio").value(profileDTO1.getFio()))
+				.andExpect(jsonPath("$.email").value(profileDTO1.getEmail()));
 	}
 
 	@SuppressWarnings("checkstyle:OperatorWrap")
