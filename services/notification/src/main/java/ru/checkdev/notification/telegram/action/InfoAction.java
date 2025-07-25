@@ -14,6 +14,7 @@ import java.util.List;
  * @since 12.09.2023
  */
 public class InfoAction implements Action {
+
     private final List<String> actions;
 
     public InfoAction(List<String> actions) {

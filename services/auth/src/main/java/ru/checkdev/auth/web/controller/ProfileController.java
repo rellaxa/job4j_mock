@@ -43,6 +43,15 @@ public class ProfileController {
                 profileDTO.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK);
     }
 
+    @GetMapping("/chatId/{chatId}")
+    public ResponseEntity<ProfileDTO> getProfileByChatId(@PathVariable Long chatId) {
+        log.info("getProfileById by chatId: {}", chatId);
+        var profileDTO = profileService.findProfileByChatId(chatId);
+        return new ResponseEntity<>(
+                profileDTO.orElse(new ProfileDTO()),
+                profileDTO.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK);
+    }
+
     /**
      * Отправляет все профили пользователей
      *

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import ru.job4j.site.dto.FilterDTO;
 
 @Service
@@ -11,9 +12,16 @@ public class FilterService {
 
     private static final String URL = "http://localhost:9912/filter/";
 
-    public FilterDTO save(String token, FilterDTO filter) throws JsonProcessingException {
+    private final RestTemplate restTemplate;
+
+	public FilterService(RestTemplate restTemplate) {
+		this.restTemplate = restTemplate;
+	}
+
+
+	public FilterDTO save(String token, FilterDTO filter) throws JsonProcessingException {
         var mapper = new ObjectMapper();
-        var out = new RestAuthCall(URL).post(
+        var out = new RestAuthCall(URL, restTemplate).post(
                 token,
                 mapper.writeValueAsString(filter)
         );
@@ -21,7 +29,7 @@ public class FilterService {
     }
 
     public FilterDTO getByUserId(String token, int userId) throws JsonProcessingException {
-        var text = new RestAuthCall(String.format("%s%d", URL, userId))
+        var text = new RestAuthCall(String.format("%s%d", URL, userId), restTemplate)
                 .get(token);
         return new ObjectMapper().readValue(text, new TypeReference<>() {
         });
@@ -29,7 +37,7 @@ public class FilterService {
 
     public void deleteByUserId(String token, int userId) throws JsonProcessingException {
         var mapper = new ObjectMapper();
-        new RestAuthCall(String.format("%sdelete/%d", URL, userId)).delete(
+        new RestAuthCall(String.format("%sdelete/%d", URL, userId), restTemplate).delete(
                 token,
                 mapper.writeValueAsString(userId)
         );

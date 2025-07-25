@@ -24,7 +24,7 @@ public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
 		}
 		if (httpResponse.getStatusCode().series() == HttpStatus.Series.CLIENT_ERROR
 				&& httpResponse.getStatusCode() == HttpStatus.NOT_FOUND) {
-			throw new IdNotFoundException("Пользователь не найден");
+			throw new IdNotFoundException("Пользователь или ID не найдены");
 		}
 	}
 }

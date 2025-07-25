@@ -19,10 +19,18 @@ import java.util.Calendar;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class ProfileDTO {
+
     @EqualsAndHashCode.Include
     private Integer id;
+
     private String username;
+
+    private String fio;
+
+    private String email;
+
     private String experience;
+
     private Integer photoId;
     /**
      * Поле дата обновления профиля.

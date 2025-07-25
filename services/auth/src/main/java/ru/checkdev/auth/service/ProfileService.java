@@ -41,4 +41,14 @@ public class ProfileService {
     public List<ProfileDTO> findProfilesOrderByCreatedDesc() {
         return personRepository.findProfileOrderByCreatedDesc();
     }
+
+    /**
+     * Получить ProfileDTO по chatID
+     *
+     * @param chatId long
+     * @return ProfileDTO
+     */
+    public Optional<ProfileDTO> findProfileByChatId(Long chatId) {
+        return Optional.ofNullable(personRepository.findProfileByChatId(chatId));
+    }
 }
