@@ -3,6 +3,7 @@ package ru.checkdev.auth.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 
 import javax.persistence.*;
@@ -24,6 +25,13 @@ public class Profile {
 
     private String username;
 
+    private String fio;
+
+
+
+    @Column(name = "chat_id")
+    private Long chatId;
+
     @Column(unique = true)
     private String email;
 
@@ -39,11 +47,11 @@ public class Profile {
     private boolean show;
 
     private String salary;
+
     @Column(name = "about_short")
     private String aboutShort;
 
     private String about;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "id", name = "id_photo")
     private Photo photo;
@@ -202,6 +210,14 @@ public class Profile {
         return show;
     }
 
+    public Long getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(Long chatId) {
+        this.chatId = chatId;
+    }
+
     public void setShow(boolean show) {
         this.show = show;
     }
@@ -224,6 +240,14 @@ public class Profile {
 
     public String getAbout() {
         return about;
+    }
+
+    public String getFio() {
+        return fio;
+    }
+
+    public void setFio(String fio) {
+        this.fio = fio;
     }
 
     public void setAbout(String about) {
@@ -307,10 +331,10 @@ public class Profile {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Password {
+
         private int id;
         private String password;
         private String newPass;
-
         public Password(int id, String password, String newPass) {
             this.id = id;
             this.password = password;
@@ -343,5 +367,33 @@ public class Profile {
         public void setNewPass(String newPass) {
             this.newPass = newPass;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Profile{"
+                + "encoding=" + encoding
+                + ", id=" + id
+                + ", username='" + username + '\''
+                + ", fio='" + fio + '\''
+                + ", chatId=" + chatId
+                + ", email='" + email + '\''
+                + ", key='" + key + '\''
+                + ", password='" + password + '\''
+                + ", active=" + active
+                + ", experience='" + experience + '\''
+                + ", show=" + show
+                + ", salary='" + salary + '\''
+                + ", aboutShort='" + aboutShort + '\''
+                + ", about='" + about + '\''
+                + ", photo=" + photo
+                + ", roles=" + roles
+                + ", privacy=" + privacy
+                + ", brief='" + brief + '\''
+                + ", urlHh='" + urlHh + '\''
+                + ", location='" + location + '\''
+                + ", updated=" + updated
+                + ", created=" + created
+                + '}';
     }
 }

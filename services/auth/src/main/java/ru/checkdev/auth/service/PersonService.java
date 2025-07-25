@@ -78,6 +78,25 @@ public class PersonService {
         return result;
     }
 
+    public Optional<Profile> bind(Profile profile) {
+        var findProfile = persons.findByEmail(profile.getEmail());
+        if (findProfile != null && encoding.matches(profile.getPassword(), findProfile.getPassword())) {
+            findProfile.setUsername(profile.getUsername());
+            findProfile.setChatId(profile.getChatId());
+            return Optional.of(persons.save(findProfile));
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Profile> unbind(Profile profile) {
+        var findProfile = persons.findByEmail(profile.getEmail());
+        if (findProfile != null && encoding.matches(profile.getPassword(), findProfile.getPassword())) {
+            findProfile.setChatId(null);
+            return Optional.of(persons.save(findProfile));
+        }
+        return Optional.empty();
+    }
+
     public Optional<Profile> create(Profile profile) {
         Optional<Profile> result = Optional.empty();
         try {
@@ -224,7 +243,6 @@ public class PersonService {
         return photo;
     }
 
-
     public Profile loadFromHh(String linc) {
         Profile profile = null;
         try {
@@ -257,7 +275,6 @@ public class PersonService {
         }
         return profile;
     }
-
 
     public String update(String email, MultipartFile file, Profile profile) {
         String result = "ok";
