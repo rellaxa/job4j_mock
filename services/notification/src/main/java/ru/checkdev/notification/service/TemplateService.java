@@ -32,16 +32,13 @@ public class TemplateService {
         this.settings = settings;
     }
 
-
     public List<Template> findAll() {
         return Lists.newArrayList(this.templates.findAll());
     }
 
-
     public Template save(Template template) {
         return this.templates.save(template);
     }
-
 
     public Template getById(int id) {
         Optional<Template> result = this.templates.findById(id);

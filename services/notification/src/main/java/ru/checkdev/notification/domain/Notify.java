@@ -1,5 +1,8 @@
 package ru.checkdev.notification.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Map;
 import java.util.Objects;
 
@@ -8,6 +11,8 @@ import java.util.Objects;
  * @version $Id$
  * @since 0.1
  */
+@Setter
+@Getter
 public class Notify {
 
     private String template;
@@ -16,31 +21,7 @@ public class Notify {
 
     private Map<String, ?> keys;
 
-    public Map<String, ?> getKeys() {
-        return keys;
-    }
-
-    public void setKeys(Map<String, ?> keys) {
-        this.keys = keys;
-    }
-
-    public String getTemplate() {
-        return template;
-    }
-
-    public void setTemplate(String template) {
-        this.template = template;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Override
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
 
