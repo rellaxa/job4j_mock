@@ -10,7 +10,7 @@ import ru.checkdev.notification.domain.Notify;
 public class SimpleNotificationListener {
 
 	@KafkaListener(topics = "notify")
-	public void receiveNotify( Notify notify) {
+	public void receiveNotify(Notify notify) {
 		log.debug(notify.toString());
 	}
 }
