@@ -52,7 +52,7 @@ public class CircuitBreaker {
         };
         var retry = new Retry(3, 1);
         String result = retry.exec(
-                () -> cb.exec(failAct, "BS DevVal"), "Retry Dev Val"
+                () -> cb.exec(failAct, "CB DevVal"), "Retry Dev Val"
         );
         System.out.println(result);
     }

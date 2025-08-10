@@ -28,20 +28,17 @@ public class Messenger {
 
 
     public void send(Notify notify) {
-        this.scheduler.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    new OAuthCall().doPost(
-                            null,
-                            String.format("%s/template/queue?access=%s", urlNotify, access),
-                            new ObjectMapper().writeValueAsString(notify)
-                    );
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        this.scheduler.execute(() -> {
+			try {
+				new OAuthCall().doPost(
+						null,
+						String.format("%s/template/queue?access=%s", urlNotify, access),
+						new ObjectMapper().writeValueAsString(notify)
+				);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
     }
 
 

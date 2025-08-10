@@ -1,5 +1,8 @@
 package ru.checkdev.notification.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 /**
@@ -7,6 +10,8 @@ import javax.persistence.*;
  * @version $Id$
  * @since 0.1
  */
+@Setter
+@Getter
 @Entity(name = "setting")
 public class Setting {
 
@@ -27,31 +32,7 @@ public class Setting {
         this.value = value;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Key getKey() {
-        return key;
-    }
-
-    public void setKey(Key key) {
-        this.key = key;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public enum Key {
+	public enum Key {
         HOST, PORT, AUTH, FROM, USERNAME, PASSWORD
     }
 }
