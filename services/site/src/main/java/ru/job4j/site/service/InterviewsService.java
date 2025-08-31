@@ -24,7 +24,7 @@ public class InterviewsService {
             throws JsonProcessingException {
         System.out.println("page = " + page + "; size =  " + size);
         var text = new RestAuthCall(String
-                .format("http://localhost:9912/interviews/?page=%d&?size=%d", page, size), restTemplate)
+                .format("http://mock:9912/interviews/?page=%d&?size=%d", page, size), restTemplate)
                 .get(token);
         var mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -34,7 +34,7 @@ public class InterviewsService {
     }
 
     public List<InterviewDTO> getByType(int type) throws JsonProcessingException {
-        var text = new RestAuthCall(String.format("http://localhost:9912/interviews/%d", type), restTemplate)
+        var text = new RestAuthCall(String.format("http://mock:9912/interviews/%d", type), restTemplate)
                 .get();
         var mapper = new ObjectMapper();
         return mapper.readValue(text, new TypeReference<>() {
@@ -44,7 +44,7 @@ public class InterviewsService {
     public List<InterviewDTO> getByStatusAndTopicIds(int statusId, List<Integer> topicIds) throws JsonProcessingException {
         var tids = parseIdsListToString(topicIds);
         var text = new RestAuthCall(String
-                .format("http://localhost:9912/interviews/findByStatus/%s/findByTopics/%s",
+                .format("http://mock:9912/interviews/findByStatus/%s/findByTopics/%s",
                         statusId, tids), restTemplate).get();
         var mapper = new ObjectMapper();
         return mapper.readValue(text, new TypeReference<>() {
@@ -55,7 +55,7 @@ public class InterviewsService {
             throws JsonProcessingException {
         var text =
                 new RestAuthCall(String
-                        .format("http://localhost:9912/interviews/findByTopicId/%d?page=%d&?size=%d",
+                        .format("http://mock:9912/interviews/findByTopicId/%d?page=%d&?size=%d",
                                 topicId, page, size), restTemplate).get();
         var mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -70,7 +70,7 @@ public class InterviewsService {
         var mapper = new ObjectMapper();
         var text =
                 new RestAuthCall(String
-                        .format("http://localhost:9912/interviews/findByTopicsIds/%s?page=%d&?size=%d",
+                        .format("http://mock:9912/interviews/findByTopicsIds/%s?page=%d&?size=%d",
                                 tids, page, size), restTemplate).get();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         var pageType = mapper.getTypeFactory()

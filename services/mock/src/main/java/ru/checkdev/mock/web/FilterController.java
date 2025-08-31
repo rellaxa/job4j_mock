@@ -8,6 +8,7 @@ import ru.checkdev.mock.domain.Filter;
 import ru.checkdev.mock.service.FilterService;
 
 import java.sql.SQLException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/filter")
@@ -28,7 +29,9 @@ public class FilterController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<Filter> getByUserId(@PathVariable int userId) {
-        return filterService.findByUserId(userId).map(
+        var filterByUserId = filterService.findByUserId(userId);
+        System.out.println("Filter by id: " + filterByUserId);
+        return filterByUserId.map(
                 value -> new ResponseEntity<>(value, HttpStatus.OK)
         ).orElseGet(() -> new ResponseEntity<>(new Filter(), HttpStatus.NOT_FOUND));
     }

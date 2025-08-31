@@ -22,19 +22,19 @@ public class NotificationService {
     public void addSubscribeCategory(String token, int userId, int categoryId) throws JsonProcessingException {
         SubscribeCategory subscribeCategory = new SubscribeCategory(userId, categoryId);
         var mapper = new ObjectMapper();
-        var out = new RestAuthCall("http://localhost:9920/subscribeCategory/add", restTemplate).post(
+        var out = new RestAuthCall("http://notification:9920/subscribeCategory/add", restTemplate).post(
                 token, mapper.writeValueAsString(subscribeCategory));
     }
 
     public void deleteSubscribeCategory(String token, int userId, int categoryId) throws JsonProcessingException {
         SubscribeCategory subscribeCategory = new SubscribeCategory(userId, categoryId);
         var mapper = new ObjectMapper();
-        var out = new RestAuthCall("http://localhost:9920/subscribeCategory/delete", restTemplate).post(
+        var out = new RestAuthCall("http://notification:9920/subscribeCategory/delete", restTemplate).post(
                 token, mapper.writeValueAsString(subscribeCategory));
     }
 
     public UserDTO findCategoriesByUserId(int id) throws JsonProcessingException {
-        var text = new RestAuthCall("http://localhost:9920/subscribeCategory/" + id, restTemplate).get();
+        var text = new RestAuthCall("http://notification:9920/subscribeCategory/" + id, restTemplate).get();
         var mapper = new ObjectMapper();
         List<Integer> list = mapper.readValue(text, new TypeReference<>() {
         });
@@ -44,19 +44,19 @@ public class NotificationService {
     public void addSubscribeTopic(String token, int userId, int topicId) throws JsonProcessingException {
         SubscribeTopicDTO subscribeTopicDTO = new SubscribeTopicDTO(userId, topicId);
         var mapper = new ObjectMapper();
-        var out = new RestAuthCall("http://localhost:9920/subscribeTopic/add", restTemplate).post(
+        var out = new RestAuthCall("http://notification:9920/subscribeTopic/add", restTemplate).post(
                 token, mapper.writeValueAsString(subscribeTopicDTO));
     }
 
     public void deleteSubscribeTopic(String token, int userId, int topicId) throws JsonProcessingException {
         SubscribeTopicDTO subscribeTopic = new SubscribeTopicDTO(userId, topicId);
         var mapper = new ObjectMapper();
-        var out = new RestAuthCall("http://localhost:9920/subscribeTopic/delete", restTemplate).post(
+        var out = new RestAuthCall("http://notification:9920/subscribeTopic/delete", restTemplate).post(
                 token, mapper.writeValueAsString(subscribeTopic));
     }
 
     public UserTopicDTO findTopicByUserId(int id) throws JsonProcessingException {
-        var text = new RestAuthCall("http://localhost:9920/subscribeTopic/" + id, restTemplate).get();
+        var text = new RestAuthCall("http://notification:9920/subscribeTopic/" + id, restTemplate).get();
         var mapper = new ObjectMapper();
         List<Integer> list = mapper.readValue(text, new TypeReference<>() {
         });

@@ -38,6 +38,7 @@ public class ProfileController {
     @GetMapping("/{id}")
     public ResponseEntity<ProfileDTO> getProfileById(@PathVariable int id) {
         var profileDTO = profileService.findProfileByID(id);
+        System.out.println("Profile: " + profileDTO.get());
         return new ResponseEntity<>(
                 profileDTO.orElse(new ProfileDTO()),
                 profileDTO.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK);

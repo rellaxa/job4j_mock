@@ -59,7 +59,7 @@ public class PersonController {
         }
         model.addAttribute("personDto", personDTO);
         model.addAttribute("photoId", getPhotoIdByPersonDTO(personDTO));
-        return "/persons/personView";
+        return "persons/personView";
     }
 
     /**
@@ -89,7 +89,7 @@ public class PersonController {
         model.addAttribute("personDto", personDTO);
         model.addAttribute("photoId", getPhotoIdByPersonDTO(personDTO));
         model.addAttribute("errorMessage", errorMessage);
-        return "/persons/personEdit";
+        return "persons/personEdit";
     }
 
     /**
