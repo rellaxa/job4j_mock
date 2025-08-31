@@ -62,7 +62,7 @@ class FeedbackControllerTest {
                 .andExpect(model().attribute("interview", interviewDTO))
                 .andExpect(model().attribute("breadcrumbs", breadcrumbs))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/interview/feedbackForm"));
+                .andExpect(view().name("interview/feedbackForm"));
     }
 
     @Test
