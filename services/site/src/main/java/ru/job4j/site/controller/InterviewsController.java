@@ -55,18 +55,24 @@ public class InterviewsController {
                                    @RequestParam(required = false, defaultValue = "20") int size) {
         try {
             var token = getToken(req);
+            System.out.println("token: " + token);
             var user = authService.userInfo(token);
+            System.out.println("UserDto: " + user);
             var userId = user != null ? user.getId() : 0;
             var filter = userId > 0
                     ? filterService.getByUserId(token, userId) : null;
+            System.out.println("filter: " + filter);
             var isFiltered = filter != null && filter.getCategoryId() > 0;
+            System.out.println("isFiltered: " + isFiltered);
             Page<InterviewDTO> interviewsPage;
             List<TopicIdNameDTO> topicIdNameDTOS = new ArrayList<>();
             var categoryName = "";
             var topicName = "";
             var categories = categoriesService.getAll();
+            System.out.println("categories: " + categories);
             if (isFiltered) {
                 topicIdNameDTOS = topicsService.getTopicIdNameDtoByCategory(filter.getCategoryId());
+                System.out.println("topicIdNameDTOS: " + topicIdNameDTOS);
                 interviewsPage = filter.getTopicId() > 0
                         ? interviewsService.getByTopicId(filter.getTopicId(), page, size)
                         : interviewsService.getByTopicsIds(
@@ -76,13 +82,17 @@ public class InterviewsController {
             } else {
                 interviewsPage = interviewsService.getAll(token, page, size);
             }
+            System.out.println("interviewsPage: " + interviewsPage);
             Set<ProfileDTO> userList = interviewsPage.toList().stream()
                     .map(x -> profilesService.getProfileById(x.getSubmitterId()))
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .collect(Collectors.toSet());
+            System.out.println("userList: " + userList);
             var wishers = wisherService.getAllWisherDtoByInterviewId(token, "");
+            System.out.println("wishers: " + wishers);
             var interviewStatistic = wisherService.getInterviewStatistic(wishers);
+            System.out.println("interviewStatistic: " + interviewStatistic);
             RequestResponseTools.addAttrBreadcrumbs(model,
                     "Главная", "/index",
                     "Собеседования", String.format("/interviews/?page=%d&?size=%d", page, size)

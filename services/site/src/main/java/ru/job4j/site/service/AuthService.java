@@ -31,7 +31,7 @@ public class AuthService {
         ObjectMapper mapper = new ObjectMapper();
 
         return mapper.readValue(new RestAuthCall(
-                "http://localhost:9900/person/current", restTemplate
+                "http://auth:9900/person/current", restTemplate
         ).get(token), UserInfoDTO.class);
     }
 

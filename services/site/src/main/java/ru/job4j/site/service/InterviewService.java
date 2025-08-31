@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class InterviewService {
-    private static final String URL_MOCK = "http://localhost:9912/interview/";
+    private static final String URL_MOCK = "http://mock:9912/interview/";
     private final ProfilesService profilesService;
 
     private final RestTemplate restTemplate;

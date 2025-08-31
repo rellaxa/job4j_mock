@@ -42,7 +42,7 @@ class ProfilesControllerTest {
                 
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("profile", profile))
-                .andExpect(view().name("/profiles/profileView"));
+                .andExpect(view().name("profiles/profileView"));
     }
 
     @Test

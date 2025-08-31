@@ -56,6 +56,7 @@ public class PersonService {
 
     public Optional<Profile> reg(Profile profile) {
         Optional<Profile> result = Optional.empty();
+        System.out.println("From reg: " + profile);
         try {
             if (profile.isPrivacy()) {
                 profile.setRoles(null);
@@ -65,6 +66,7 @@ public class PersonService {
                                 String.format("%s%s", System.currentTimeMillis(), profile.getPassword())
                         )
                 );
+                System.out.println("Profile key: " + profile.getKey());
                 profile.setPassword(this.encoding.encode(profile.getPassword()));
                 profile.setUpdated(Calendar.getInstance());
                 result = Optional.of(this.persons.save(profile));

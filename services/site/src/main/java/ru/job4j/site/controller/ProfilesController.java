@@ -45,7 +45,7 @@ public class ProfilesController {
                 "Профили", "/profiles/",
                 username, "/profiles/" + id
         );
-        return "/profiles/profileView";
+        return "profiles/profileView";
     }
 
     /**

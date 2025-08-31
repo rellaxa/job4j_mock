@@ -47,7 +47,7 @@
                     <img alt="No image"
                          class="w-25"
                          th:if="${not #strings.isEmpty(profile.photoId)}"
-                         th:src="@{http://localhost:9900/img(id=*{profile.photoId})}">
+                         th:src="@{http://auth:9900/img(id=*{profile.photoId})}">
                 </div>
             </td>
             <td>

@@ -52,7 +52,7 @@ public class FeedbackController {
                 "Собеседования", "/interviews/",
                 interviewDTO.getTitle(), String.format("/interview/%d", id),
                 "Отзыв", String.format("/interview/feedback/%d", id));
-        return "/interview/feedbackForm";
+        return "interview/feedbackForm";
     }
 
     /**

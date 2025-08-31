@@ -25,14 +25,14 @@ public class CategoriesService {
     private final RestTemplate restTemplate;
 
     public List<CategoryDTO> getAll() throws JsonProcessingException {
-        var text = new RestAuthCall("http://localhost:9902/categories/", restTemplate).get();
+        var text = new RestAuthCall("http://desc:9902/categories/", restTemplate).get();
         var mapper = new ObjectMapper();
         return mapper.readValue(text, new TypeReference<>() {
         });
     }
 
     public List<CategoryDTO> getPopularFromDesc() throws JsonProcessingException {
-        var text = new RestAuthCall("http://localhost:9902/categories/most_pop", restTemplate).get();
+        var text = new RestAuthCall("http://desc:9902/categories/most_pop", restTemplate).get();
         var mapper = new ObjectMapper();
         return mapper.readValue(text, new TypeReference<>() {
         });
@@ -40,7 +40,7 @@ public class CategoriesService {
 
     public CategoryDTO create(String token, CategoryDTO category) throws JsonProcessingException {
         var mapper = new ObjectMapper();
-        var out = new RestAuthCall("http://localhost:9902/category/", restTemplate).post(
+        var out = new RestAuthCall("http://desc:9902/category/", restTemplate).post(
                 token,
                 mapper.writeValueAsString(category)
         );
@@ -49,7 +49,7 @@ public class CategoriesService {
 
     public void update(String token, CategoryDTO category) throws JsonProcessingException {
         var mapper = new ObjectMapper();
-        new RestAuthCall("http://localhost:9902/category/", restTemplate).put(
+        new RestAuthCall("http://desc:9902/category/", restTemplate).put(
                 token,
                 mapper.writeValueAsString(category)
         );
@@ -57,7 +57,7 @@ public class CategoriesService {
 
     public void updateStatistic(String token, int categoryId) throws JsonProcessingException {
         var mapper = new ObjectMapper();
-        new RestAuthCall("http://localhost:9902/category/statistic", restTemplate).put(
+        new RestAuthCall("http://desc:9902/category/statistic", restTemplate).put(
                 token, mapper.writeValueAsString(categoryId));
     }
 

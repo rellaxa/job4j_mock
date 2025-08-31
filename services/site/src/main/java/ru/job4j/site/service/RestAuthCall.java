@@ -3,14 +3,12 @@ package ru.job4j.site.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.DefaultResponseErrorHandler;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -44,14 +42,28 @@ public class RestAuthCall {
                     }
                 }
         );*/
-        var headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.set("Authorization", "Bearer " + token);
-        return rt.exchange(url, HttpMethod.GET,
-                new HttpEntity<>(headers), new ParameterizedTypeReference<String>() {
-                }
-        ).getBody();
-    }
+        try {
+            var headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            headers.set("Authorization", "Bearer " + token);
+            System.out.println("Url: " + url + " | Token: " + token);
+            var response = rt.exchange(url, HttpMethod.GET,
+                    new HttpEntity<>(headers), new ParameterizedTypeReference<String>() {
+                    }
+            );
+            System.out.println("response: " + response);
+            var body = response.getBody();
+            System.out.println("Filter body: " + body);
+            return body;
+        } catch (HttpClientErrorException.NotFound e) {
+            log.warn("Resource not found at {} (404). Token: {}", url, token);
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.warn("Unexpected exception when calling {}: {}", url, e.getMessage(), e);
+        }
+		return null;
+	}
 
     public String token(Map<String, String> params) {
         /*var restTemplate = new RestTemplate();*/
